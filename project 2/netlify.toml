@@ -1,8 +1,7 @@
 [build]
-command = "npx vite build"
-publish = "dist"
-functions = "netlify/functions"
-
+cocommand = "npm --prefix \"project 2\" run build"
+publish = "project 2/dist"
+functions = "project 2/netlify/functions"
 [build.environment]
 NODE_VERSION = "18"
 
