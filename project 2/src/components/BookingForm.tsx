@@ -46,31 +46,38 @@ const BookingForm = () => {
     setSubmitStatus({ type: null, message: '' });
 
     try {
-      const result = await sendBookingEmail(formData as BookingFormData);
+      const res = await fetch('/.netlify/functions/send-booking', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(formData),
+});
+
+if (res.ok) {
+  setSubmitStatus({
+    type: 'success',
+    message: "Thank you! We'll contact you within 24 hours to confirm your booking and provide a detailed quote.",
+  });
+
+  setFormData({
+    name: '',
+    phone: '',
+    email: '',
+    serviceType: '',
+    preferredDate: '',
+    preferredTime: '',
+    address: '',
+    message: '',
+  });
+} else {
+  setSubmitStatus({
+    type: 'error',
+    message: 'Unable to submit form. Please call (612) 513-7035 to book directly.',
+  });
+}
+
+
       
-      if (result.success) {
-        setSubmitStatus({
-          type: 'success',
-          message: 'Thank you! We\'ll contact you within 24 hours to confirm your booking and provide a detailed quote.'
-        });
-        
-        // Reset form on success
-        setFormData({
-          name: '',
-          phone: '',
-          email: '',
-          serviceType: '',
-          preferredDate: '',
-          preferredTime: '',
-          address: '',
-          message: ''
-        });
-      } else {
-        setSubmitStatus({
-          type: 'error',
-          message: result.error || 'Unable to submit form. Please call (612) 513-7035 to book directly.'
-        });
-      }
+      
     } catch (error) {
       console.error('Form submission error:', error);
       setSubmitStatus({
