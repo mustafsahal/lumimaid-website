@@ -1,9 +1,18 @@
-[build]
-command = "npm --prefix \"project 2\" run build"
+command = "npm run build"
 publish = "project 2/dist"
 functions = "project 2/netlify/functions"
+
 [build.environment]
 NODE_VERSION = "18"
+
+
+
+
+
+
+ 
+
+
 
 [functions]
 node_bundler = "nft"
